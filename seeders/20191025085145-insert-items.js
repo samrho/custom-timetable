@@ -1,28 +1,24 @@
-'use strict';
-
+"use strict";
+const fs = require("fs");
+const path = require("path");
+const csv = require("csv-parser");
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    let datas = [];
-    for(let i = 0; i < 10; i++){
-      let obj = {
-        name: "item" + i,
-        quantity: 10,
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-      }
-      datas.push(obj)
-    }
+	up: (queryInterface, Sequelize) => {
+		const datas = [];
+		fs.createReadStream(path.join(__dirname, "../data/courses.csv"))
+			.pipe(csv())
+			.on("data", (data) => {
+				datas.push(data);
+			})
+			.on("end", () => {
+				return queryInterface.bulkInsert("Lectures", datas, {});
+			});
 
-    return queryInterface.bulkInsert('Items', datas, {});
-  },
+		//dummy query to return a promise
+		return queryInterface.showAllSchemas();
+	},
 
-  down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
-  }
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.bulkDelete("Lectures", null, {});
+	},
 };

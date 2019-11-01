@@ -1,30 +1,37 @@
-'use strict';
+"use strict";
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Items', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      quantity: {
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Items');
-  }
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.createTable("Lectures", {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.INTEGER,
+			},
+			code: {
+				type: Sequelize.STRING,
+			},
+			lecture: {
+				type: Sequelize.STRING,
+			},
+			professor: {
+				type: Sequelize.STRING,
+			},
+			location: {
+				type: Sequelize.STRING,
+			},
+			start_time: {
+				type: Sequelize.STRING,
+			},
+			end_time: {
+				type: Sequelize.STRING,
+			},
+			dayofweek: {
+				type: Sequelize.STRING,
+			},
+		});
+	},
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.dropTable("Lectures");
+	},
 };
