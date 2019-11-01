@@ -6,7 +6,7 @@ module.exports = {
 		database: process.env.MYSQL_DATABASE,
 		host: process.env.MYSQL_ROOT_HOST,
 		dialect: "mysql",
-		operatorsAliases: false,
+		// operatorsAliases: false,
 	},
 	test: {
 		username: process.env.MYSQL_USER,
@@ -14,7 +14,7 @@ module.exports = {
 		database: process.env.MYSQL_DATABASE,
 		host: process.env.MYSQL_ROOT_HOST,
 		dialect: "mysql",
-		operatorsAliases: false,
+		// operatorsAliases: false,
 	},
 	production: {
 		username: "root",
