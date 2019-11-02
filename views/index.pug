@@ -11,58 +11,24 @@ block content
           i.material-icons.ic-search search
       ul.list-lecture
         each lecture in lectures
-          li.card-lecture
-            a.lecture-title(href='#')=lecture.lecture
-            h6.lecture-time
-              i.material-icons.ic-lecture-info access_time
-              span #{lecture.start_time}:00 - #{lecture.end_time}:00 | (#{lecture.dayofweek})
-            ul.list-lecture-info
-              li 교과목 코드: #{lecture.code}
-              li 담당 교수 : #{lecture.professor}
-              li 강의실 : #{lecture.location}
+          if !lecture.isPositioned
+            li.card-lecture
+              a.lecture-title(href='#')=lecture.lecture
+              h6.lecture-time
+                i.material-icons.ic-lecture-info access_time
+                span #{lecture.start_time}:00 - #{lecture.end_time}:00 | (#{lecture.dayofweek})
+              ul.list-lecture-info
+                li 교과목 코드: #{lecture.code}
+                li 담당 교수 : #{lecture.professor}
+                li 강의실 : #{lecture.location}
     section.section-list
       .container-xl
         .table-schedule
           .timeline
             ul
-              li
-                span 09:00
-              li
-                span 09:30
-              li
-                span 10:00
-              li
-                span 10:30
-              li
-                span 11:00
-              li
-                span 11:30
-              li
-                span 12:00
-              li
-                span 12:30
-              li
-                span 13:00
-              li
-                span 13:30
-              li
-                span 14:00
-              li
-                span 14:30
-              li
-                span 15:00
-              li
-                span 15:30
-              li
-                span 16:00
-              li
-                span 16:30
-              li
-                span 17:00
-              li
-                span 17:30
-              li
-                span 18:00
+              each time in times
+                li
+                  span=time
           .table-schedule-subject
             ul.list-lecture-item
               li.timeline-vertical
