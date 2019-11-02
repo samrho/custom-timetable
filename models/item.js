@@ -1,11 +1,16 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('Item', {
-    name: DataTypes.STRING,
-    quantity: DataTypes.INTEGER
-  }, {});
-  User.associate = function(models) {
-    // associations can be defined here
-  };
-  return User;
+	const Lectures = sequelize.define(
+		"Lectures",
+		{
+			name: DataTypes.STRING,
+			quantity: DataTypes.INTEGER,
+			test: DataTypes.INTEGER,
+		},
+		{},
+	);
+	Lectures.associate = function(models) {
+		// associations can be defined here
+	};
+	return Lectures;
 };
