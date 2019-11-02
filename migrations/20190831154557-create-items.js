@@ -29,6 +29,13 @@ module.exports = {
 			dayofweek: {
 				type: Sequelize.STRING,
 			},
+			isPositioned: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false,
+			},
+			memo: {
+				type: Sequelize.STRING,
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
