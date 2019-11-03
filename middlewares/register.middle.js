@@ -2,6 +2,11 @@ const Lectures = require("../models").Lectures;
 const { Op } = require("../models/index").Sequelize;
 const { isDuplicated } = require("../util/utils");
 
+const findLectureByName = async (req, res, next) => {
+	const { lecture } = req.params;
+	const veryLecture = await Lectures.findOne({ where: { lecture } });
+	res.status(200).json({ message: "SUCCESS", data: veryLecture });
+};
 const collisionCheck = async (req, res, next) => {
 	const { code } = req.params;
 	const veryLecture = await Lectures.findOne({ where: { code }, raw: true });
@@ -19,14 +24,8 @@ const collisionCheck = async (req, res, next) => {
 		},
 		raw: true,
 	});
-	console.log("positionedLectures: ", positionedLectures);
+
 	for await (let positioned of positionedLectures) {
-		console.log(
-			start_time,
-			end_time,
-			positioned.start_time,
-			positioned.end_time,
-		);
 		if (
 			isDuplicated(
 				start_time,
@@ -35,7 +34,6 @@ const collisionCheck = async (req, res, next) => {
 				positioned.end_time,
 			)
 		) {
-			console.log("duplicated!!");
 			return res.status(200).send({
 				message: `${veryLecture.lecture}는 ${positioned.lecture}와 겹칩니다.`,
 			});
@@ -44,13 +42,26 @@ const collisionCheck = async (req, res, next) => {
 	next();
 };
 
-const successfullyAdded = async function(req, res, next) {
+const successfullyAdded = async (req, res, next) => {
 	const { code } = req.params;
 	const veryLecture = await Lectures.findOne({ where: { code }, raw: true });
 	Lectures.update({ isPositioned: 1 }, { where: { code } });
-	console.log(veryLecture);
 	res.status(200).json({
+		OK: true,
 		message: `${veryLecture.lecture}가 정상적으로 등록되었습니다.`,
 	});
 };
-module.exports = { collisionCheck, successfullyAdded };
+
+const successfullyRemoved = async (req, res, next) => {
+	const { code } = req.params;
+	Lectures.update({ isPositioned: 0 }, { where: { code } });
+	res.status(200).json({
+		message: `강의가 정상적으로 삭제되었습니다..`,
+	});
+};
+module.exports = {
+	collisionCheck,
+	successfullyAdded,
+	findLectureByName,
+	successfullyRemoved,
+};
