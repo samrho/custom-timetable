@@ -59,22 +59,21 @@ $(function() {
 });
 
 $(function() {
-	$('[data-toggle="popover"]').popover({
-		container: "body",
-		html: true,
-		placement: "right",
-		sanitize: false,
-		content: function() {
-			return $("#PopoverContent").html();
-		},
-	});
-});
-
-const memoAddBtn = document.querySelector(".btn-save");
-memoAddBtn.addEventListener("click", (event) => {
-	// const memoTitle = $("#recipient-name").value;
-	// const memoContent = $("#message-text").value;
-	alert("hi");
+	$('[data-toggle="popover"]')
+		.popover({
+			container: "body",
+			html: true,
+			placement: "right",
+			sanitize: false,
+			content: $("#PopoverContent").html(),
+		})
+		.on("shown.bs.popover", () => {
+			$(".btn-save").click(function() {
+				let memoTitle = $("#recipient-name").val();
+				let memoContent = `memo 기능이 잘 작동하고 있습니다.`;
+				$('[data-toggle="popover"]').popover("hide");
+			});
+		});
 });
 
 const lecture = document.querySelector(".registerBtn");
@@ -101,7 +100,6 @@ const registerOnTheTable = async (lectureCode) => {
 const input = document.querySelector(".form-control");
 const searchFilterHandler = (e) => {
 	const filter = e.target.value.toUpperCase();
-	console.log(filter);
 	const lectureList = document.querySelectorAll(".card-lecture");
 	lectureList.forEach((lecture) => {
 		const [title, code, prof] = getLectureInfo(lecture);

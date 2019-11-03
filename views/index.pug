@@ -5,9 +5,9 @@ mixin printInfo(lecture)
     .lecture-info
       h6.lecture-title #{lecture.lecture}
       h6.lecture-location #{lecture.location}
-    .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
+    .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title=`${lecture.memo || 'memo'}`)
       i.material-icons.ic-lecture-noti assignment
-      span.lecture-noti-title 과제 제목 텍스트
+      span.lecture-noti-title #{lecture.memo || 'memo'}
 
 mixin print(lecture, day)
   if (lecture.isPositioned && lecture.dayofweek.includes(day))
@@ -117,48 +117,46 @@ block content
           button.close(type='button', data-dismiss='modal', aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
-          h3.lecture-title &#xC6F9; &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D;
+          h3.lecture-title title comes here
           ul.lecture-info
             li.lecture-time
               i.material-icons.ic-lecture-info access_alarm
-              span &#xAC15;&#xC758; &#xC2DC;&#xAC04; : 09:00 - 10:50 | (&#xC6D4;), (&#xC218;)
-            li.lecture-code
+              span time comes here
+            li.lecture-code.lecture-code__code
               i.material-icons.ic-lecture-info code
-              span &#xAD50;&#xACFC;&#xBAA9; &#xCF54;&#xB4DC; : A0000001
-            li.lecture-code
+              span code comes here
+            li.lecture-code.lecture-code__prof
               i.material-icons.ic-lecture-info school
-              span &#xB2F4;&#xB2F9; &#xAD50;&#xC218; : &#xAE40;&#xC9C4;&#xC218;
-            li.lecture-code
+              span prof name comes here
+            li.lecture-code.lecture-code__location
               i.material-icons.ic-lecture-info business
-              span &#xAC15;&#xC758;&#xC2E4; : &#xACF5;&#xD559;&#xAD00; 204
+              span location comes here
           .lecture-description
-            p.txt-description
-              | &#xBCF8; &#xAC15;&#xC758;&#xC5D0;&#xC11C;&#xB294; JSP&#xB97C; &#xC774;&#xC6A9;&#xD55C; &#xC6F9; &#xAE30;&#xBC18; &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D; &#xAE30;&#xCD08; &#xBC0F; &#xC751;&#xC6A9;&#xAE30;&#xC220;&#xC5D0; &#xB300;&#xD574; &#xD559;&#xC2B5;&#xD569;&#xB2C8;&#xB2E4;. &#xD2B9;&#xD788; &#xC2E4;&#xC2B5; &#xC704;&#xC8FC;&#xC758; &#xC218;&#xC5C5;&#xC73C;&#xB85C; &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D; &#xC2A4;&#xD0AC; &#xD5A5;&#xC0C1; &#xBC0F;
-              | &#xC2E4;&#xBB34; &#xB2A5;&#xB825;&#xC744; &#xAC16;&#xCD9C; &#xC218; &#xC788;&#xB3C4;&#xB85D; &#xD569;&#xB2C8;&#xB2E4;.
+            p.txt-description description comes here
           .lecture-memo
-            h5.memo-header &#xBA54;&#xBAA8;
+            h5.memo-header 메모
             ul
               li.memo-list
                 .memo-content(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
                   i.material-icons.ic-lecture-noti assignment
-                  span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
+                  span.lecture-noti-title memo comes here;
                 .memo-btn
                   a(href='')
                     i.material-icons.ic-lecture-noti delete
         .modal-footer
           .left
             button.btn.btn-light-primary(type='button', data-toggle='popover', data-trigger='click', data-placement='right', data-html='true')
-              | &#xBA54;&#xBAA8; &#xB4F1;&#xB85D;
+              | 메모 등록
           .right
-            button.btn.btn-light(type='button', data-dismiss='modal') &#xD655;&#xC778;
-            button.btn.btn-danger(type='button') &#xACFC;&#xBAA9; &#xC0AD;&#xC81C;&#xD558;&#xAE30;
+            button.btn.btn-light(type='button', data-dismiss='modal') 확인
+            button.btn.btn-danger(type='button') 과목 삭제하기
   #PopoverContent(style='display: none;')
-    h5.schedule-title &#xBA54;&#xBAA8; &#xB4F1;&#xB85D;&#xD558;&#xAE30;
+    h5.schedule-title 메모 등록하기
     .form-group
       label.col-form-label
-        | &#xC81C;&#xBAA9;
-        input#recipient-name.form-control(type='text', placeholder='제목 추가')
+        | 제목
+        input#recipient-name.form-control(type='text', placeholder='제목 추가', value="기본 제목", maxLength=15)
     .form-group
-      label.col-form-label(for='message-text') &#xC124;&#xBA85;
-      textarea#message-text.form-control(placeholder='설명 추가')
-    button.btn.btn-primary.btn-save(type='button') ㅋㅋ &#xB4F1;&#xB85D;
+      label.col-form-label(for='message-text') 설명
+      textarea#message-text.form-control(placeholder='설명 추가', value="기본 내용")
+    button.btn.btn-primary.btn-save(type='button', data) 추가
