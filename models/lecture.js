@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
 			end_time: DataTypes.STRING,
 			dayofweek: DataTypes.STRING,
 			isPositioned: DataTypes.BOOLEAN,
+			description: DataTypes.STRING,
+			memo: DataTypes.STRING,
 		},
 		{
 			timestamps: false,
