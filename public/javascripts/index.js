@@ -1,5 +1,5 @@
-import { getCodeName } from "./utils.js";
-
+import { getDataAfterColon, getLectureInfo } from "./utils.js";
+// 모달 나타내기 하기
 $(".card-lecture").click(function(event) {
 	$("#modal-lecture-info").modal("show");
 	const data = event.currentTarget;
@@ -41,21 +41,46 @@ $(function() {
 });
 
 const lecture = document.querySelector(".registerBtn");
-lecture.addEventListener("click", (e) => {
+const registerHandler = (e) => {
 	const selectedLecture =
 		e.target.parentNode.previousSibling.childNodes[1].childNodes[1];
-	const selectedCodeName = getCodeName(selectedLecture);
-	console.log(selectedCodeName);
+	const selectedCodeName = getDataAfterColon(selectedLecture);
 	registerOnTheTable(selectedCodeName);
-});
-console.log(lecture.parentNode);
-
-const registerOnTheTable = (lectureCode) => {
-	const URL = `/api/add/${lectureCode}`;
-	fetch(URL, {
-		method: "POST",
-	})
-		.then((res) => res.json())
-		.then((res) => console.log(res));
-	$("#modal-lecture-info").modal("hide");
 };
+
+lecture.addEventListener("click", registerHandler);
+
+const registerOnTheTable = async (lectureCode) => {
+	const URL = `/api/add/${lectureCode}`;
+	const result = await fetch(URL, {
+		method: "POST",
+	});
+	const { message } = await result.json();
+	if (message) alert(message);
+	// if (result.ok) {
+	// 	document.querySelector("body").innerHTML = `<h1>${result}</h1>`;
+	// }
+
+	$("#modal-lecture-info").modal("hide");
+	// location.reload();
+};
+
+//search control
+const input = document.querySelector(".form-control");
+const searchFilterHandler = (e) => {
+	const filter = e.target.value.toUpperCase();
+	const lectureList = document.querySelectorAll(".card-lecture");
+	lectureList.forEach((lecture) => {
+		const [title, code, prof] = getLectureInfo(lecture);
+		if (
+			title.includes(filter) ||
+			code.includes(filter) ||
+			prof.includes(filter)
+		) {
+			lecture.style.display = "block";
+		} else {
+			lecture.style.display = "none";
+		}
+	});
+};
+input.addEventListener("keyup", searchFilterHandler);
