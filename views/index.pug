@@ -1,5 +1,26 @@
 extends layout
 
+mixin printInfo(lecture)
+  a(href='#')
+    .lecture-info
+      h6.lecture-title #{lecture.lecture}
+      h6.lecture-location #{lecture.location}
+    .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
+      i.material-icons.ic-lecture-noti assignment
+      span.lecture-noti-title 과제 제목 텍스트
+
+mixin print(lecture, day)
+  if (lecture.isPositioned && lecture.dayofweek.includes(day))
+    - const duration = lecture.end_time - lecture.start_time
+    - const rand = (parseInt(lecture.code.substr(-2)) % 10 + 1)
+    - const paddedNumber = rand.toString().padStart(2, '0')
+    if (duration === 2)
+      li(class=`lecture-time two-hr hr-${lecture.start_time}` data-event=`lecture-${paddedNumber}`)
+        +printInfo(lecture)
+    else 
+      li(class=`lecture-time hr-${lecture.start_time}` data-event=`lecture-${paddedNumber}`)
+        +printInfo(lecture)
+
 block content
   .container-lecture
     section.header
@@ -35,107 +56,32 @@ block content
                 .top-info.today
                   h4.day Mon
                 ul
-                  li.lecture-time.two-hr.hr-11(data-event='lecture-01')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title test
-                        h6.lecture-location &#xACF5;&#xD559;&#xAD00; 204
-                      .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
-                        i.material-icons.ic-lecture-noti assignment
-                        span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
-                  li.lecture-time.two-hr.hr-13(data-event='lecture-02')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D;&#xC758; &#xC6D0;&#xB9AC;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                      .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
-                        i.material-icons.ic-lecture-noti assignment
-                        span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
-                  li.lecture-time.hr-16(data-event='lecture-03')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xB17C;&#xB9AC; &#xC124;&#xACC4;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
+                  each lecture in lectures
+                    +print(lecture, '월')
               li.timeline-vertical
                 .top-info
                   h4.day Tue
                 ul
-                  li.lecture-time.two-hr.hr-10(data-event='lecture-04')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC790;&#xB8CC; &#xAD6C;&#xC870;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                  li.lecture-time.hr-12(data-event='lecture-05')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC54C;&#xACE0;&#xB9AC;&#xC998;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                  li.lecture-time.hr-16(data-event='lecture-06')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xCEF4;&#xD4E8;&#xD130; &#xB124;&#xD2B8;&#xC6CC;&#xD06C;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
+                  each lecture in lectures
+                    +print(lecture, '화')
               li.timeline-vertical
                 .top-info
                   h4.day Wed
                 ul
-                  li.lecture-time.two-hr.hr-10(data-event='lecture-01')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC6F9; &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D;
-                        h6.lecture-location &#xACF5;&#xD559;&#xAD00; 204
-                  li.lecture-time.hr-12(data-event='lecture-07')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xCEF4;&#xD30C;&#xC77C;&#xB7EC;
-                        h6.lecture-location &#xACF5;&#xD559;&#xAD00; 602
-                  li.lecture-time.two-hr.hr-13(data-event='lecture-02')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xD504;&#xB85C;&#xADF8;&#xB798;&#xBC0D;&#xC758; &#xC6D0;&#xB9AC;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                      .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
-                        i.material-icons.ic-lecture-noti assignment
-                        span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
+                  each lecture in lectures
+                    +print(lecture, '수')
               li.timeline-vertical
                 .top-info
                   h4.day Thu
                 ul
-                  li.lecture-time.two-hr.hr-10(data-event='lecture-04')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC790;&#xB8CC; &#xAD6C;&#xC870;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                      .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
-                        i.material-icons.ic-lecture-noti assignment
-                        span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
-                  li.lecture-time.hr-12(data-event='lecture-05')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC54C;&#xACE0;&#xB9AC;&#xC998;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                  li.lecture-time.hr-15(data-event='lecture-08')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xB370;&#xC774;&#xD130;&#xBCA0;&#xC774;&#xC2A4;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
+                  each lecture in lectures
+                    +print(lecture, '목')
               li.timeline-vertical
                 .top-info
                   h4.day Fri
                 ul
-                  li.lecture-time.hr-10(data-event='lecture-09')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xB370;&#xC774;&#xD130; &#xD1B5;&#xC2E0;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                  li.lecture-time.two-hr.hr-12(data-event='lecture-10')
-                    a(href='#')
-                      .lecture-info
-                        h6.lecture-title &#xC6B4;&#xC601; &#xCCB4;&#xC81C;
-                        h6.lecture-location &#xACF5;&#xD559;1&#xAD00; 102
-                      .lecture-noti(data-toggle='tooltip', data-placement='top', title='', data-original-title='과제 설명 텍스트 과제 설명 텍스트 과제 설명 텍스트')
-                        i.material-icons.ic-lecture-noti assignment
-                        span.lecture-noti-title &#xACFC;&#xC81C; &#xC81C;&#xBAA9; &#xD14D;&#xC2A4;&#xD2B8;
+                  each lecture in lectures
+                    +print(lecture, '금')
   #modal-lecture-info.modal.fade(role='dialog', aria-hidden='true')
     .modal-dialog(role='document')
       .modal-content
